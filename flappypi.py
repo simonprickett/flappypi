@@ -5,10 +5,16 @@
 from collections import deque
 from random import randint
 import time
+import thread
+
+#####
+# Global variables
+#####
 
 playField = deque()
 advanceCounter = 0
 gapCounter = 0
+score = 0
 
 #####
 # Set the playfield to blank
@@ -43,9 +49,9 @@ def generatePipeGap():
 	return [ 0, 0, 0, 0, 0, 0, 0, 0 ]
 
 #####
-# TODO
+# Display the playfield and run scoring / collision logic
 #####
-def printPlayField():
+def renderPlayField():
 	global score
 	global gameOver
 
@@ -68,6 +74,9 @@ def printPlayField():
 				playFieldLine.append(playField[m][n])
 
 		print playFieldLine
+
+	print "------------------------"
+
 
 #####
 # Handles side scrolling the play field
@@ -95,16 +104,80 @@ def advancePlayField():
 				gapCounter += 1
 
 #####
-# TODO
+#
 #####
-def waitForPlayer():
-	print "TODO: Start screen!"
+def waitForInput():
+	while True:
+		choice = raw_input("")
+		if (choice == ""):
+			break
 
 #####
 # TODO
 #####
-def doGameOver():
+def inputThread(l):
+	raw_input()
+	l.append(None)
+
+#####
+# Wait for a player to come and start a game
+#####
+def waitForPlayer():
+	showFrameOne = True
+	screen = []
+	l = []
+
+	frameOne = [[ 0, 0, 0, 1, 1, 0, 0, 0 ],
+	            [ 0, 0, 0, 1, 1, 0, 0, 0 ],
+	            [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+	            [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+	            [ 0, 0, 1, 1, 1, 1, 0, 0 ],
+	            [ 0, 0, 1, 1, 1, 1, 0, 0 ],
+	            [ 0, 1, 1, 1, 1, 1, 1, 0 ],
+	            [ 0, 0, 0, 0, 0, 0, 0, 0 ]
+	           ]
+
+	frameTwo = [[ 0, 0, 0, 1, 1, 0, 0, 0 ],
+	            [ 0, 0, 0, 1, 1, 0, 0, 0 ],
+	            [ 0, 0, 0, 1, 1, 0, 0, 0 ],
+	            [ 0, 0, 0, 1, 1, 0, 0, 0 ],
+	            [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+	            [ 0, 0, 1, 1, 1, 1, 0, 0 ],
+	            [ 0, 1, 1, 1, 1, 1, 1, 0 ],
+	            [ 0, 0, 0, 0, 0, 0, 0, 0 ]
+	           ]
+
+	thread.start_new_thread(inputThread, (l,))
+
+	while True:	
+		if l:
+			break
+
+		if (showFrameOne):
+			screen = frameOne
+		else:
+			screen = frameTwo
+
+		showFrameOne = not showFrameOne
+
+		for n in range(8):
+			print screen[n]
+
+		print "------------------------"
+		time.sleep(1)
+
+#####
+# Game ended, display score and end screen
+#####
+def gameEnded():
 	print "GAME OVER (SCORE " + str(score) + ")"
+	time.sleep(10)
+
+#####
+# Flap the wing
+#####
+def flap():
+	print "FLAP"
 
 #####
 # TODO
@@ -114,21 +187,29 @@ def playGame():
 	global score
 	global birdHeight
 
-	clearPlayField()
+	l = []
 	score = 0
 	birdHeight = 4
 	gameOver = False
 
+	clearPlayField()
+	thread.start_new_thread(inputThread, (l,))
+
 	while (not gameOver):
-		printPlayField()
-		print "------------------------"
+		renderPlayField()
 		advancePlayField()
+		if (l):
+			flap()
+			l = []
+			thread.start_new_thread(inputThread, (l,))
+
 		time.sleep(2)
 
+
 #####
-# TODO
+# Entry point, main loop
 #####
 while (True):
 	waitForPlayer()
 	playGame()
-	doGameOver()
+	gameEnded()
