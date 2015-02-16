@@ -180,6 +180,12 @@ def flap():
 	print "FLAP"
 
 #####
+# Deal with a movement where there was no flap
+#####
+def noFlap():
+	print "NO FLAP"
+
+#####
 # TODO
 #####
 def playGame():
@@ -202,9 +208,10 @@ def playGame():
 			flap()
 			l = []
 			thread.start_new_thread(inputThread, (l,))
+		else:
+			noFlap()
 
 		time.sleep(2)
-
 
 #####
 # Entry point, main loop
