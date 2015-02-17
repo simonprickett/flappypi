@@ -75,9 +75,6 @@ def renderPlayField():
 				# Render the bird
 				playFieldLine.append(2)
 				UH.set_pixel(m, n, 255, 0, 0)
-
-				# Adjust bird height
-				print birdMoves
 			else:
 				# This line doesn't have the bird on
 				playFieldLine.append(playField[m][n])
@@ -93,13 +90,19 @@ def renderPlayField():
 # Handles side scrolling the play field
 #####
 def advancePlayField():
-	global advanceCounter, gapCounter
+	global advanceCounter, gapCounter, birdHeight, birdMoves
 	
 	if (advanceCounter < 5):
 		# For now do nothing user is on lead in to
 		# first pipe
 		advanceCounter += 1
 	else:
+		birdHeight += birdMoves.popleft()
+		if (birdHeight < 0):
+			birdHeight = 0
+		elif (birdHeight > 8):
+			birdHeight = 8 
+
 		if (advanceCounter == 5):
 			# First pipe
 			playField.popleft()
@@ -197,8 +200,8 @@ def gameEnded():
 def flap():
 	global birdMoves
 	print "FLAP"
-	birdMoves.append(1)
-	birdMoves.append(1)
+	birdMoves.append(-1)
+	birdMoves.append(-1)
 
 #####
 # Deal with a movement where there was no flap
@@ -206,7 +209,7 @@ def flap():
 def noFlap():
 	global birdMoves
 	print "NO FLAP"
-	birdMoves.append(-1)
+	birdMoves.append(1)
 
 #####
 # TODO
@@ -237,7 +240,7 @@ def playGame():
 		else:
 			noFlap()
 
-		time.sleep(2)
+		time.sleep(1)
 
 #####
 # Entry point, main loop
