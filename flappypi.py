@@ -6,6 +6,7 @@ from collections import deque
 from random import randint
 import time
 import thread
+import unicornhat as UH
 
 #####
 # Global variables
@@ -27,6 +28,8 @@ def clearPlayField():
 	playField = deque()
 	for n in range(8):
 		playField.append([0, 0, 0, 0, 0, 0, 0, 0])
+
+	UH.clear()
 
 #####
 # Generate a new pipe represented as 8 on or off states
@@ -71,14 +74,17 @@ def renderPlayField():
 
 				# Render the bird
 				playFieldLine.append(2)
+				UH.set_pixel(m, n, 255, 0, 0)
 
 				# Adjust bird height
 				print birdMoves
 			else:
 				# This line doesn't have the bird on
 				playFieldLine.append(playField[m][n])
+				UH.set_pixel(m, n, 0, 255 * playField[m][n], 0)
 
 		print playFieldLine
+		UH.show()
 
 	print "------------------------"
 
@@ -164,6 +170,13 @@ def waitForPlayer():
 			screen = frameTwo
 
 		showFrameOne = not showFrameOne
+
+		for y in range(8):
+			for x in range(8):
+				r = screen[y][x] * 255
+				UH.set_pixel(x, y, r, 0, 0)
+
+		UH.show()
 
 		for n in range(8):
 			print screen[n]
