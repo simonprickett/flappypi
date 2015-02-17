@@ -97,6 +97,7 @@ def advancePlayField():
 		# first pipe
 		advanceCounter += 1
 	else:
+		# move to top of this function
 		birdHeight += birdMoves.popleft()
 		if (birdHeight < 0):
 			birdHeight = 0
