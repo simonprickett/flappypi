@@ -15,6 +15,8 @@ playField = deque()
 advanceCounter = 0
 gapCounter = 0
 score = 0
+birdHeight = 4
+birdMoves = deque()
 
 #####
 # Set the playfield to blank
@@ -69,6 +71,9 @@ def renderPlayField():
 
 				# Render the bird
 				playFieldLine.append(2)
+
+				# Adjust bird height
+				print birdMoves
 			else:
 				# This line doesn't have the bird on
 				playFieldLine.append(playField[m][n])
@@ -177,13 +182,18 @@ def gameEnded():
 # Flap the wing
 #####
 def flap():
+	global birdMoves
 	print "FLAP"
+	birdMoves.append(1)
+	birdMoves.append(1)
 
 #####
 # Deal with a movement where there was no flap
 #####
 def noFlap():
+	global birdMoves
 	print "NO FLAP"
+	birdMoves.append(-1)
 
 #####
 # TODO
@@ -201,6 +211,9 @@ def playGame():
 	clearPlayField()
 	thread.start_new_thread(inputThread, (l,))
 
+	# Start with a flap to get the user going
+	flap()
+	
 	while (not gameOver):
 		renderPlayField()
 		advancePlayField()
