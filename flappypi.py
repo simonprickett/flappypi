@@ -80,10 +80,10 @@ def renderPlayField():
 				playFieldLine.append(playField[m][n])
 				UH.set_pixel(m, n, 0, 255 * playField[m][n], 0)
 
-		print playFieldLine
+		#print playFieldLine
 		UH.show()
 
-	print "------------------------"
+	#print "------------------------"
 
 
 #####
@@ -92,18 +92,17 @@ def renderPlayField():
 def advancePlayField():
 	global advanceCounter, gapCounter, birdHeight, birdMoves
 	
+	birdHeight += birdMoves.popleft()
+	if (birdHeight < 0):
+		birdHeight = 0
+	elif (birdHeight > 8):
+		birdHeight = 8 
+
 	if (advanceCounter < 5):
 		# For now do nothing user is on lead in to
 		# first pipe
 		advanceCounter += 1
 	else:
-		# move to top of this function
-		birdHeight += birdMoves.popleft()
-		if (birdHeight < 0):
-			birdHeight = 0
-		elif (birdHeight > 8):
-			birdHeight = 8 
-
 		if (advanceCounter == 5):
 			# First pipe
 			playField.popleft()
@@ -181,11 +180,6 @@ def waitForPlayer():
 				UH.set_pixel(x, y, r, 0, 0)
 
 		UH.show()
-
-		for n in range(8):
-			print screen[n]
-
-		print "------------------------"
 		time.sleep(1)
 
 #####
@@ -193,7 +187,7 @@ def waitForPlayer():
 #####
 def gameEnded():
 	print "GAME OVER (SCORE " + str(score) + ")"
-	time.sleep(10)
+	time.sleep(5)
 
 #####
 # Flap the wing
@@ -201,6 +195,7 @@ def gameEnded():
 def flap():
 	global birdMoves
 	print "FLAP"
+	birdMoves = deque()
 	birdMoves.append(-1)
 	birdMoves.append(-1)
 
@@ -241,7 +236,9 @@ def playGame():
 		else:
 			noFlap()
 
-		time.sleep(1)
+		print birdMoves
+
+		time.sleep(0.5)
 
 #####
 # Entry point, main loop
