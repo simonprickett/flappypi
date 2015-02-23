@@ -239,6 +239,10 @@ def playGame():
 		advancePlayField()
 		print birdMoves
 
+		# Check for collision with floor
+		if (birdHeight == 8):
+			gameOver = True
+
 		time.sleep(0.5)
 
 #####
