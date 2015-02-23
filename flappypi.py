@@ -110,7 +110,7 @@ def advancePlayField():
 			advanceCounter += 1
 		else:
 			playField.popleft()
-			if (gapCounter == 3):
+			if (gapCounter == 7):
 				playField.append(generatePipe())
 				gapCounter = 0
 			else:
@@ -198,6 +198,7 @@ def flap():
 	birdMoves = deque()
 	birdMoves.append(-1)
 	birdMoves.append(-1)
+	birdMoves.append(-1)
 
 #####
 # Deal with a movement where there was no flap
@@ -227,8 +228,6 @@ def playGame():
 	flap()
 	
 	while (not gameOver):
-		renderPlayField()
-		advancePlayField()
 		if (l):
 			flap()
 			l = []
@@ -236,6 +235,8 @@ def playGame():
 		else:
 			noFlap()
 
+		renderPlayField()
+		advancePlayField()
 		print birdMoves
 
 		time.sleep(0.5)
