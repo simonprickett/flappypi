@@ -198,7 +198,6 @@ def flap():
 	birdMoves = deque()
 	birdMoves.append(-1)
 	birdMoves.append(-1)
-	birdMoves.append(-1)
 
 #####
 # Deal with a movement where there was no flap
@@ -243,7 +242,7 @@ def playGame():
 		if (birdHeight == 8):
 			gameOver = True
 
-		time.sleep(0.5)
+		time.sleep(0.3)
 
 #####
 # Entry point, main loop
