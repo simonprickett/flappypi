@@ -187,6 +187,45 @@ def waitForPlayer():
 #####
 def gameEnded():
 	print "GAME OVER (SCORE " + str(score) + ")"
+
+	if (score == 0):
+		# Render a big 0
+		screen = [[ 0, 0, 0, 0, 0, 0, 0, 0 ],
+			  [ 0, 0, 0, 1, 1, 0, 0, 0 ],
+			  [ 0, 0, 1, 0, 0, 1, 0, 0 ],
+			  [ 0, 1, 0, 0, 0, 0, 1, 0 ],
+			  [ 0, 1, 0, 0, 0, 0, 1, 0 ],
+			  [ 0, 0, 1, 0, 0, 1, 0, 0 ],
+			  [ 0, 0, 0, 1, 1, 0, 0, 0 ],
+			  [ 0, 0, 0, 0, 0, 0, 0, 0 ]
+		       ]
+	
+		for y in range(8):	
+			for x in range(8):
+				g = screen[y][x] * 255
+				UH.set_pixel(x, y, 0, g, 0)
+
+		UH.show()
+	else:
+		# Render one dot per point scored
+		x = 0
+		y = 0
+
+		UH.clear()
+		UH.show()
+
+		for n in range(score):
+			UH.set_pixel(x, y, 0, 255, 0)
+			UH.show()
+			time.sleep(0.5)
+			x+=1 
+			if (x == 8):
+				y+= 1
+				x = 0
+
+			if (y == 8):
+				break
+
 	time.sleep(5)
 
 #####
