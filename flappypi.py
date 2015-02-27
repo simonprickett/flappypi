@@ -1,5 +1,7 @@
 #####
-# TODO
+# Filename:    flappypi.py
+# Description: Flappy bird type game in Python for Pimoroni Unicorn Hat
+# Author:      Simon Prickett
 #####
 
 from collections import deque
@@ -70,7 +72,6 @@ def renderPlayField():
 					gameOver = True
 				elif (sum(playField[m]) > 0):
 					score += 1
-					print "SCORE (" + str(score) + ")"
 
 				# Render the bird
 				playFieldLine.append(2)
@@ -80,11 +81,7 @@ def renderPlayField():
 				playFieldLine.append(playField[m][n])
 				UH.set_pixel(m, n, 0, 255 * playField[m][n], 0)
 
-		#print playFieldLine
 		UH.show()
-
-	#print "------------------------"
-
 
 #####
 # Handles side scrolling the play field
@@ -94,8 +91,10 @@ def advancePlayField():
 	
 	birdHeight += birdMoves.popleft()
 	if (birdHeight < 0):
+		# Bird can't go any higher than top of screen
 		birdHeight = 0
 	elif (birdHeight > 8):
+		# Bird can't go any lower than bottom of screen
 		birdHeight = 8 
 
 	if (advanceCounter < 5):
@@ -110,6 +109,7 @@ def advancePlayField():
 			advanceCounter += 1
 		else:
 			playField.popleft()
+			# Draw a pipe every 7th frame
 			if (gapCounter == 7):
 				playField.append(generatePipe())
 				gapCounter = 0
@@ -118,7 +118,7 @@ def advancePlayField():
 				gapCounter += 1
 
 #####
-#
+# Loop until the user presses the return key
 #####
 def waitForInput():
 	while True:
@@ -127,14 +127,15 @@ def waitForInput():
 			break
 
 #####
-# TODO
+# Used to track whether the user pressed return or not
 #####
 def inputThread(l):
 	raw_input()
 	l.append(None)
 
 #####
-# Wait for a player to come and start a game
+# Wait for a player to come and start a game, alternate 
+# between two images simulating pressing of a button
 #####
 def waitForPlayer():
 	showFrameOne = True
@@ -186,8 +187,6 @@ def waitForPlayer():
 # Game ended, display score and end screen
 #####
 def gameEnded():
-	print "GAME OVER (SCORE " + str(score) + ")"
-
 	if (score == 0):
 		# Render a big 0
 		screen = [[ 0, 0, 0, 0, 0, 0, 0, 0 ],
@@ -233,7 +232,6 @@ def gameEnded():
 #####
 def flap():
 	global birdMoves
-	print "FLAP"
 	birdMoves = deque()
 	birdMoves.append(-1)
 	birdMoves.append(-1)
@@ -243,7 +241,6 @@ def flap():
 #####
 def noFlap():
 	global birdMoves
-	print "NO FLAP"
 	birdMoves.append(1)
 
 #####
