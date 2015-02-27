@@ -281,7 +281,7 @@ def playGame():
 		if (birdHeight == 8):
 			gameOver = True
 
-		time.sleep(0.3)
+		time.sleep(0.2)
 
 #####
 # Entry point, main loop
