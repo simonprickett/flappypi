@@ -109,13 +109,13 @@ def advancePlayField():
 		# first pipe
 		advanceCounter += 1
 	else:
+		playField.popleft()
+
 		if (advanceCounter == 5):
 			# First pipe
-			playField.popleft()
 			playField.append(generatePipe())
 			advanceCounter += 1
 		else:
-			playField.popleft()
 			# Draw a pipe every 7th frame
 			if (gapCounter == 7):
 				playField.append(generatePipe())
@@ -251,7 +251,7 @@ def noFlap():
 	birdMoves.append(1)
 
 #####
-# TODO
+# Play an instance of the game
 #####
 def playGame():
 	global gameOver
