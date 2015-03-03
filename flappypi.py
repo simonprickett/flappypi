@@ -284,7 +284,15 @@ def playGame():
 		if (birdHeight == 8):
 			gameOver = True
 
-		time.sleep(0.2)
+		# Speed up after 10th and 20th pipes
+		if (score < 10):
+			sleepTime = 0.2
+		elif (score < 20):
+			sleepTime = 0.15
+		else:
+			sleepTime = 0.1
+
+		time.sleep(sleepTime)
 
 #####
 # Entry point, main loop
