@@ -79,7 +79,7 @@ def renderPlayField():
 			else:
 				# This line doesn't have the bird on
 				playFieldLine.append(playField[m][n])
-				UH.set_pixel(m, n, 0, 255 * playField[m][n], 0)
+				UH.set_pixel(m, n, 238 * playField[m][n], 238 * playField[m][n], 0)
 
 		UH.show()
 
@@ -272,7 +272,6 @@ def playGame():
 
 		renderPlayField()
 		advancePlayField()
-		print birdMoves
 
 		# Check for collision with floor
 		if (birdHeight == 8):
