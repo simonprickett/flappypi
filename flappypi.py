@@ -79,7 +79,14 @@ def renderPlayField():
 			else:
 				# This line doesn't have the bird on
 				playFieldLine.append(playField[m][n])
-				UH.set_pixel(m, n, 238 * playField[m][n], 238 * playField[m][n], 0)
+				if (m <= 2):
+					pipeRColor = 0
+					pipeGColor = 255
+				else:
+					pipeRColor = 238
+					pipeGColor = 238
+
+				UH.set_pixel(m, n, pipeRColor * playField[m][n], pipeGColor * playField[m][n], 0)
 
 		UH.show()
 
