@@ -171,24 +171,32 @@ def waitForPlayer():
 
 	thread.start_new_thread(inputThread, (l,))
 
+	loopCount = 1
 	while True:	
 		if l:
 			break
 
-		if (showFrameOne):
-			screen = frameOne
+		if (loopCount == 1):
+			if (showFrameOne):
+				screen = frameOne
+			else:
+				screen = frameTwo
+
+			showFrameOne = not showFrameOne
+
+			for y in range(8):
+				for x in range(8):
+					r = screen[y][x] * 255
+					UH.set_pixel(x, y, r, 0, 0)
+
+			UH.show()
+
+		if (loopCount == 5):
+			loopCount = 1
 		else:
-			screen = frameTwo
+			loopCount += 1
 
-		showFrameOne = not showFrameOne
-
-		for y in range(8):
-			for x in range(8):
-				r = screen[y][x] * 255
-				UH.set_pixel(x, y, r, 0, 0)
-
-		UH.show()
-		time.sleep(1)
+		time.sleep(.2)
 
 #####
 # Game ended, display score and end screen
